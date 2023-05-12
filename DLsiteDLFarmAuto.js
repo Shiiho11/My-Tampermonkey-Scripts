@@ -10,8 +10,56 @@
 // ==/UserScript==
 
 (function () {
-    let url = "/home/event/dlfarm/ajax";
-    let data = { act: "draw" };
-    let result = jQuery.getJSON(url, data);
-    console.log(result);
+    let url = "/home/event/dlfarm/ajax"
+    let data = { act: "show" }
+    //let data = { act: "draw" }
+    $.getJSON(url, data).then(
+        function (json) {
+            console.log(json)
+            if (json.class[1] == "logged_in") {
+                data = { act: "draw" }
+                $.getJSON(url, data).then(
+                    function (result) {
+                        console.log(result)
+                    }
+                )
+            }
+        }
+    )
 })();
+
+/*
+{ act: "show" }
+{
+    "class": [
+        "spring_01",
+        "logout"
+    ]
+}
+{
+    "class": [
+        "spring_01",
+        "logged_in"
+    ]
+}
+{
+    "class": [
+        "spring_01",
+        "end",
+        "type_02"
+    ]
+}
+
+{ act: "draw" }
+{
+    "class": [
+        "type_02"
+    ],
+    "name": "タンポポ"
+}
+{
+    "class": [
+        "error"
+    ]
+}
+*/
